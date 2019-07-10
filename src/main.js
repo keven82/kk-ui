@@ -1,12 +1,13 @@
 import Vue from 'vue'
-import './plugins/axios'
 import App from './App.vue'
-import router from './router'
+import router from './router/index'
 import store from './store'
 import './plugins/element.js'
+import api from './http/index'
 
 Vue.config.productionTip = false
-
+Vue.use(api)
+import('./mock/index.js')
 new Vue({
   router,
   store,
