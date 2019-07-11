@@ -34,20 +34,23 @@
     <el-col :span="24" class="main">
       <aside class="aside">
         <!--导航菜单-->
-        <el-menu default-active="1-3" class="el-menu-vertical-demo" @open="handleopen" @close="handleclose" @select="handleselect" :collapse="isCollapse">
+        <el-menu default-active="1-2" class="el-menu-vertical-demo" @open="handleopen" @close="handleclose" @select="handleselect" :collapse="isCollapse">
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span slot="title">导航一</span>
+              <span slot="title">系统管理</span>
             </template>
-            <el-menu-item index="1-1">选项1</el-menu-item>
-            <el-menu-item index="1-2">选项2</el-menu-item>
-            <el-menu-item index="1-3">选项3</el-menu-item>
+            <el-menu-item index="1-1" @click="$router.push('user')">用户管理</el-menu-item>
+            <el-menu-item index="1-2" @click="$router.push('menu')">菜单管理</el-menu-item>
           </el-submenu>
-          <el-menu-item index="2">
-            <i class="el-icon-menu"></i>
-            <span slot="title">导航二</span>
-          </el-menu-item>
+          <el-submenu index="2">
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span slot="title">系统监控</span>
+            </template>
+            <el-menu-item index="2-1" @click="$router.push('user')">服务监控</el-menu-item>
+            <el-menu-item index="2-2" @click="$router.push('menu')">任务监控</el-menu-item>
+          </el-submenu>
           <el-menu-item index="3" disabled>
             <i class="el-icon-document"></i>
             <span slot="title">导航三</span>
@@ -78,25 +81,180 @@
   </el-row>
 </template>
 
+
 <script>
 // @ is an alias to /src
 export default {
   name: 'Home',
+  data() {
+    return {
+      isCollapse: false,
+      sysName: "kitty",
+      username: "Louis",
+      userAvatar: "",
+      logo: "",
+      activeIndex: '1'
+    };
+  },
   methods: {
-    getUser(){
-      this.$api.getUser().then(res=>{
-        alert(res.data)
-      }).catch(err=>{
-        alert(err)
-      })
+    handleopen() {
+      console.log('handleopen');
     },
-    getMenu(){
-      this.$api.getMenu().then(res=>{
-        alert(res.data)
-      }).catch(err=>{
-        alert(err)
+    handleclose() {
+      console.log('handleclose');
+    },
+    handleselect(a, b) {
+      console.log('handleselect');
+    },
+    handleSelectHearNavBar(key, keyPath) {
+      console.log(key, keyPath)
+    },
+    //折叠导航栏
+    collapse: function() {
+      this.isCollapse = !this.isCollapse;
+    },
+    //退出登录
+    logout: function() {
+      var _this = this;
+      this.$confirm("确认退出吗?", "提示", {
+        type: "warning"
       })
+              .then(() => {
+                sessionStorage.removeItem("user");
+                this.$router.push("/login");
+              })
+              .catch(() => {});
+    }
+  },
+  mounted() {
+    this.sysName = "I like Kitty";
+    this.logo = require("@/assets/logo.png");
+    var user = sessionStorage.getItem("user");
+    if (user) {
+      this.userName = user;
+      this.userAvatar = require("@/assets/user.png");
     }
   }
 }
 </script>
+<style scoped lang="scss">
+  .container {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    width: 100%;
+    .header {
+      height: 60px;
+      line-height: 60px;
+      background: #4b5f6e;
+      color: #fff;
+      .userinfo {
+        text-align: right;
+        padding-right: 30px;
+        float: right;
+        .userinfo-inner {
+          font-size: 20px;
+          cursor: pointer;
+          color: #fff;
+          img {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            margin: 10px 0px 10px 10px;
+            float: right;
+          }
+        }
+      }
+      .logo {
+        height: 60px;
+        font-size: 22px;
+        padding-left: 0px;
+        padding-right: 0px;
+        border-color: rgba(238, 241, 146, 0.5);
+        border-right-width: 1px;
+        border-right-style: solid;
+        background: #4b5f6e;
+        text-align: left;
+        img {
+          width: 40px;
+          height: 40px;
+          border-radius: 0px;
+          margin: 10px 10px 10px 10px;
+          float: left;
+        }
+        .txt {
+          color: #fff;
+        }
+      }
+      .logo-width {
+        width: 230px;
+      }
+      .logo-collapse-width {
+        width: 65px;
+      }
+      .tools {
+        padding-left: 10px;
+        padding-right: 10px;
+        text-align: center;
+        width: 40px;
+        height: 60px;
+        line-height: 60px;
+        cursor: pointer;
+      }
+      .hearNavBar {
+        background: #4b5f6e;
+        padding: 0px 0px;
+        width: 100%;
+        height: 60px;
+        line-height: 60px;
+        font-size: 29px;
+        cursor: pointer;
+      }
+    }
+    .main {
+      display: flex;
+      position: absolute;
+      top: 60px;
+      bottom: 0px;
+      overflow: hidden;
+      aside {
+        flex: 0 0 230px;
+        width: 230px;
+        .el-menu {
+          height: 100%;
+          text-align: left;
+        }
+      }
+      .content-container {
+        // background: #f1f2f7;
+        flex: 1;
+        // overflow-y: scroll;
+        padding: 0px;
+        .breadcrumb-container {
+          height: 28px;
+          background: #fff;
+          border-color: rgba(38, 86, 114, 0.2);
+          border-bottom-width: 1px;
+          border-bottom-style: solid;
+          background: rgba(99, 138, 161, 0.2);
+          .breadcrumb-inner {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 5px;
+            text-align: left;
+            font-size: 18px;
+            width: 100%;
+            height: 100%;
+            float: left;
+          }
+        }
+        .content-wrapper {
+          background-color: #fff;
+          box-sizing: border-box;
+        }
+      }
+    }
+  }
+</style>

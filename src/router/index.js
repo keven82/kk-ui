@@ -3,12 +3,9 @@ import Router from 'vue-router'
 import Login from '@/views/Login'
 import NotFound from '@/views/404'
 import Home from '@/views/Home'
-/*
 import Main from '@/views/Main'
 import User from '@/views/User'
 import Menu from '@/views/Menu'
-*/
-
 
 
 
@@ -22,11 +19,11 @@ const router = new Router({
             path: '/',
             name: '首页',
             component: Home,
-            /*children: [
+            children: [
                 { path: '/main', component: Main, name: '系统介绍' },
                 { path: '/user', component: User, name: '用户管理' },
                 { path: '/menu', component: Menu, name: '菜单管理' }
-            ]*/
+            ]
         },
 
         {
