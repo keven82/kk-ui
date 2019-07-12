@@ -6,6 +6,9 @@ import Home from '@/views/Home'
 import Main from '@/views/Main'
 import User from '@/views/User'
 import Menu from '@/views/Menu'
+import Dept from '@/views/Dept'
+import Log from '@/views/Log'
+import Role from '@/views/Role'
 
 
 
@@ -22,7 +25,10 @@ const router = new Router({
             children: [
                 { path: '/main', component: Main, name: '系统介绍' },
                 { path: '/user', component: User, name: '用户管理' },
-                { path: '/menu', component: Menu, name: '菜单管理' }
+                { path: '/dept', component: Dept, name: '机构管理' },
+                { path: '/role', component: Role, name: '角色管理' },
+                { path: '/menu', component: Menu, name: '菜单管理' },
+                { path: '/log', component: Log, name: '日志管理' },
             ]
         },
 

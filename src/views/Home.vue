@@ -14,13 +14,22 @@
         <div class="hearNavBar">
           <el-menu :default-active="activeIndex" class="el-menu-demo" background-color="#4b5f6e" text-color="#fff"
                    active-text-color="#ffd04b" mode="horizontal" @select="handleSelectHearNavBar">
-            <el-menu-item index="1">首页</el-menu-item>
-            <el-menu-item index="2">消息中心</el-menu-item>
-            <el-menu-item index="3">订单管理</el-menu-item>
+            <el-menu-item index="1">{{$t('common.home')}}</el-menu-item>
+            <el-menu-item index="2">{{$t('common.doc')}}</el-menu-item>
+            <el-menu-item index="3">{{$t('common.msgCenter')}}</el-menu-item>
           </el-menu>
         </div>
       </el-col>
       <el-col :span="5" class="userinfo">
+        <el-dropdown @command="handleCommand">
+          <span class="el-dropdown-link lang-inner">
+            <span id="language">中文</span><i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command="zh_cn:中文">中文</el-dropdown-item>
+            <el-dropdown-item command="en_us:English">English</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
         <el-dropdown trigger="hover">
           <span class="el-dropdown-link userinfo-inner"><img :src="this.userAvatar" /> {{username}}</span>
           <el-dropdown-menu slot="dropdown">
@@ -41,15 +50,18 @@
               <span slot="title">系统管理</span>
             </template>
             <el-menu-item index="1-1" @click="$router.push('user')">用户管理</el-menu-item>
-            <el-menu-item index="1-2" @click="$router.push('menu')">菜单管理</el-menu-item>
+            <el-menu-item index="1-2" @click="$router.push('dept')">机构管理</el-menu-item>
+            <el-menu-item index="1-3" @click="$router.push('role')">角色管理</el-menu-item>
+            <el-menu-item index="1-4" @click="$router.push('menu')">菜单管理</el-menu-item>
+            <el-menu-item index="1-5" @click="$router.push('log')">日志管理</el-menu-item>
           </el-submenu>
           <el-submenu index="2">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span slot="title">系统监控</span>
             </template>
-            <el-menu-item index="2-1" @click="$router.push('user')">服务监控</el-menu-item>
-            <el-menu-item index="2-2" @click="$router.push('menu')">任务监控</el-menu-item>
+            <el-menu-item index="2-1" @click="$router.push('/user')">服务监控</el-menu-item>
+            <el-menu-item index="2-2" @click="$router.push('/menu')">任务监控</el-menu-item>
           </el-submenu>
           <el-menu-item index="3" disabled>
             <i class="el-icon-document"></i>
@@ -115,7 +127,6 @@ export default {
     },
     //退出登录
     logout: function() {
-      var _this = this;
       this.$confirm("确认退出吗?", "提示", {
         type: "warning"
       })
