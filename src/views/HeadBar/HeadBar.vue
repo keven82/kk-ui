@@ -1,5 +1,5 @@
 <template>
-    <div class="head-container">
+    <div class="head-container" :class="$store.state.collapse?'menu-bar-collapse-width':'menu-bar-width'">
         <!-- 导航菜单隐藏显示切换 -->
         <span class="collapse-switcher" @click.prevent="collapse">
             <i class="el-icon-menu"></i>
